@@ -1,11 +1,12 @@
 mod day1;
 mod day2;
 mod day3;
+mod file_parser;
 
-use std::fs::File;
-use std::io::{self, BufReader};
+use std::io::{self};
 use chrono;
 use chrono::Datelike;
+use crate::file_parser::FileParser;
 
 fn main() -> io::Result<()> {
     let mut day = chrono::offset::Local::now().day();
@@ -15,13 +16,12 @@ fn main() -> io::Result<()> {
         let is_test = i == 0;
         let suffix = if is_test { "_test" } else { "" };
         let filename = format!("input/day{}{}.txt", day, suffix);
-        let file = File::open(filename)?;
-        let reader = BufReader::new(file);
+        let mut file_parser = FileParser::new(&filename);
 
         let result = match day {
-            1 => day1::main(reader),
-            2 => day2::main(reader),
-            3 => day3::main(reader),
+            //1 => day1::main(file_parser),
+            //2 => day2::main(file_parser),
+            3 => day3::main(&mut file_parser),
             _ => ("Not implemented".to_string(), "Not implemented".to_string()),
         };
 
