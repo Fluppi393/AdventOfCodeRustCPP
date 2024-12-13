@@ -41,6 +41,10 @@ impl FileParser {
         }
     }
 
+    pub fn get_line(&self) -> &str {
+        &self.cur_line
+    }
+
     pub fn next_char(&mut self) -> bool {
         self.char_idx = self.char_idx + 1;
         !self.is_line_done()
