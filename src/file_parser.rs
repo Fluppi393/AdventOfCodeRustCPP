@@ -1,5 +1,7 @@
+use std::fmt::Debug;
 use std::fs::File;
 use std::io::{BufRead, BufReader, Write};
+use std::str::FromStr;
 
 pub struct FileParser {
     lines: std::io::Lines<BufReader<File>>,
@@ -172,9 +174,17 @@ impl FileParser {
         self.count_by_predicate(|c| c.is_numeric())
     }
 
-    pub fn consume_i32(&mut self) -> Option<i32> {
+    pub fn consume_numeric<T>(&mut self) -> Option<T>
+    where
+        T: FromStr,
+        <T as FromStr>::Err: Debug,
+    {
         self.consume_num(self.count_numeric())
-            .map(|s| s.parse::<i32>().unwrap())
+            .map(|s| s.parse::<T>().unwrap())
+    }
+
+    pub fn consume_i32(&mut self) -> Option<i32> {
+        self.consume_numeric()
     }
 
     pub fn count_non_numeric(&self) -> usize {
@@ -195,5 +205,13 @@ impl FileParser {
 
     pub fn consume_alphanumeric(&mut self) -> Option<String> {
         self.consume_num(self.count_alphanumeric())
+    }
+
+    pub fn count_whitespace(&self) -> usize {
+        self.count_by_predicate(|c| c.is_whitespace())
+    }
+
+    pub fn consume_whitespace(&mut self) -> Option<String> {
+        self.consume_num(self.count_whitespace())
     }
 }
