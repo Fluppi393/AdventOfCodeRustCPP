@@ -2,7 +2,7 @@ use crate::file_parser::FileParser;
 
 fn calc_joltage(input: &str, num_digits: usize) -> u64 {
     let mut result = 0;
-    
+
     // Convert the input into a vector of digits
     let digits: Vec<u32> = input.chars().map(|c| c.to_digit(10).unwrap()).collect();
 
@@ -11,7 +11,7 @@ fn calc_joltage(input: &str, num_digits: usize) -> u64 {
         let start = last_index.map_or(0, |s| s + 1);
         let end = input.len() - (num_digits - i - 1);
         let slice = &digits[start..end];
-        
+
         let (index, digit) = slice
             .iter()
             .enumerate()
@@ -43,11 +43,11 @@ fn solve(file_parser: &mut FileParser) -> (u64, u64) {
 #[test]
 fn day3() {
     assert_eq!(
-        solve(&mut FileParser::new("input/2025/day3_test.txt")),
+        solve(&mut FileParser::new("2025/day3_test.txt")),
         (357, 3121910778619)
     );
     assert_eq!(
-        solve(&mut FileParser::new("input/2025/day3.txt")),
+        solve(&mut FileParser::new("2025/day3.txt")),
         (17196, 171039099596062)
     );
 }

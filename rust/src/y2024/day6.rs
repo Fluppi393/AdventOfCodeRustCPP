@@ -163,12 +163,6 @@ fn solve(file_parser: &mut FileParser) -> (i32, i32) {
 
 #[test]
 fn day6() {
-    assert_eq!(
-        solve(&mut FileParser::new("input/2024/day6_test.txt")),
-        (41, 6)
-    );
-    assert_eq!(
-        solve(&mut FileParser::new("input/2024/day6.txt")),
-        (5101, 1951)
-    );
+    assert_eq!(solve(&mut FileParser::new("2024/day6_test.txt")), (41, 6));
+    assert_eq!(solve(&mut FileParser::new("2024/day6.txt")), (5101, 1951));
 }

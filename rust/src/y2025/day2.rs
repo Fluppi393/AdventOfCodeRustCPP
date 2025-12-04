@@ -47,10 +47,7 @@ fn is_silly_number(value: u64) -> (bool, bool) {
             continue;
         }
 
-        return (
-            pattern_length == half_digits && digits_even,
-            true,
-        );
+        return (pattern_length == half_digits && digits_even, true);
     }
 
     (false, false)
@@ -92,11 +89,11 @@ fn day2() {
     assert_eq!(is_silly_number(123123123), (false, true));
 
     assert_eq!(
-        solve(&mut FileParser::new("input/2025/day2_test.txt")),
+        solve(&mut FileParser::new("2025/day2_test.txt")),
         (1227775554, 4174379265)
     );
     assert_eq!(
-        solve(&mut FileParser::new("input/2025/day2.txt")),
+        solve(&mut FileParser::new("2025/day2.txt")),
         (31000881061, 46769308485)
     );
 }

@@ -1,7 +1,27 @@
+use std::env;
 use std::fmt::Debug;
 use std::fs::File;
 use std::io::{BufRead, BufReader, Write};
+use std::path::{Path, PathBuf};
 use std::str::FromStr;
+
+fn find_input_dir() -> Option<PathBuf> {
+    let mut dir = env::current_dir().ok().unwrap();
+
+    loop {
+        let input_dir = dir.join("input");
+        if input_dir.is_dir() {
+            return Some(input_dir);
+        }
+
+        match dir.parent() {
+            Some(parent) => dir = parent.to_path_buf(),
+            None => break,
+        }
+    }
+
+    None
+}
 
 pub struct FileParser {
     lines: std::io::Lines<BufReader<File>>,
@@ -11,7 +31,8 @@ pub struct FileParser {
 
 impl FileParser {
     pub fn new(filename: &str) -> FileParser {
-        let file = File::open(filename).unwrap();
+        let file_path = find_input_dir().unwrap().join(Path::new(filename));
+        let file = File::open(file_path).unwrap();
         let reader = BufReader::new(file);
         let lines = reader.lines();
         let cur_line = "".to_string();
@@ -25,7 +46,7 @@ impl FileParser {
 
     pub fn inline(input: &str) -> FileParser {
         // Create a temporary file
-        let filename = "input/temp.txt";
+        let filename = "temp.txt";
         let mut temp_file = File::create(filename).unwrap();
         // Write test data to the temporary file
         temp_file.write_all(input.as_bytes()).unwrap();

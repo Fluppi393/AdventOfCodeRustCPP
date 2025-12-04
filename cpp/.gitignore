@@ -1,0 +1,5 @@
+/.idea
+/AdventOfCode
+/x64
+
+*.vcxproj.filters
