@@ -6,6 +6,15 @@
 
 namespace aoc
 {
+    inline auto load_input_file(const int year, const int day, const bool is_test)
+    {
+        const auto filename =
+            std::filesystem::current_path().parent_path() /
+            std::format("input/{}/day{}{}.txt", year, day, is_test ? "_test" : "");
+
+        return std::ifstream(filename);
+    }
+
     inline auto index_to_coord(const int index, const Vector2D<int>& size)
     {
         return Vector2D(index % size.x, index / size.x);

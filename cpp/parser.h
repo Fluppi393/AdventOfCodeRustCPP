@@ -3,7 +3,6 @@
 #include <assert.h>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 #include <ranges>
 #include <string>
 #include <optional>
