@@ -6,16 +6,11 @@
 
 namespace aoc
 {
-    inline bool default_predicate(const char)
-    {
-        return true;
-    }
+    inline bool default_predicate(const char) { return true; }
 
     inline auto load_input_file(const int year, const int day, const bool is_test)
     {
-        const auto filename =
-            std::filesystem::current_path().parent_path() /
-            std::format("input/{}/day{}{}.txt", year, day, is_test ? "_test" : "");
+        const auto filename = std::filesystem::current_path().parent_path() / std::format("input/{}/day{}{}.txt", year, day, is_test ? "_test" : "");
 
         return std::ifstream(filename);
     }
@@ -33,9 +28,13 @@ namespace aoc
         return std::nullopt;
     }
 
-    auto consume_char(auto&& first, auto&& last)
+    // Consumes and returns any character
+    auto consume_char(auto&& first, auto&& last) { return consume_char(first, last, default_predicate); }
+
+    // Consumes a specific character, returns true if it existed
+    bool consume_char(auto&& first, auto&& last, const char c)
     {
-        return consume_char(first, last, default_predicate);
+        return consume_char(first, last, [c](const auto d) { return c == d; }).has_value();
     }
 
     auto consume_string(auto&& first, auto&& last, auto&& predicate = default_predicate)
@@ -47,14 +46,20 @@ namespace aoc
         return std::string_view(start, first);
     }
 
+    auto consume_whitespace(auto&& first, auto&& last)
+    {
+        consume_string(first, last, [](const auto c) { return std::isspace(c); });
+    }
+
     // Consumes all consecutive digits and returns them as an int
     template <typename T>
-    auto consume_int(auto&& first, auto&& last)
+    std::optional<T> consume_int(auto&& first, auto&& last)
     {
-        const auto string = consume_string(first, last, [](const auto c)
+        const auto string = consume_string(first, last, [](const auto c) { return std::isdigit(c); });
+        if (string.empty())
         {
-            return std::isdigit(c);
-        });
+            return std::nullopt;
+        }
 
         const auto chars = std::string(string);
 
@@ -76,17 +81,20 @@ namespace aoc
         }
     }
 
-    inline auto index_to_coord(const int index, const Vector2D<int>& size)
+    template <typename T>
+    auto index_to_coord(const int index, const Vector2D<T>& size)
     {
         return Vector2D(index % size.x, index / size.x);
     }
 
-    inline auto coord_to_index(const Vector2D<int>& coord, const Vector2D<int>& size)
+    template <typename T>
+    auto coord_to_index(const Vector2D<T>& coord, const Vector2D<T>& size)
     {
         return coord.x + coord.y * size.x;
     }
 
-    inline bool is_valid_coord(const Vector2D<int>& coord, const Vector2D<int>& size)
+    template <typename T>
+    bool is_valid_coord(const Vector2D<T>& coord, const Vector2D<T>& size)
     {
         return coord.x >= 0 && coord.x < size.x && coord.y >= 0 && coord.y < size.y;
     }
@@ -108,4 +116,4 @@ namespace aoc
             std::cout << std::format("Expected ({},{}), got ({},{})\n", std::get<0>(expected), std::get<1>(expected), std::get<0>(actual), std::get<1>(actual));
         }
     }
-}
+} // namespace aoc

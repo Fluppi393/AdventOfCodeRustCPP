@@ -162,11 +162,13 @@
         <ClInclude Include="utility.h"/>
         <ClInclude Include="vector_2d.h"/>
         <ClInclude Include="views.h"/>
+        <ClInclude Include="y2025\day10.h"/>
         <ClInclude Include="y2025\day4.h"/>
         <ClInclude Include="y2025\day5.h"/>
         <ClInclude Include="y2025\day6.h"/>
         <ClInclude Include="y2025\day7.h"/>
         <ClInclude Include="y2025\day8.h"/>
+        <ClInclude Include="y2025\day9.h"/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="y2025\day4_input.txt"/>
